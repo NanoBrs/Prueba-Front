@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { Table, Button, Modal } from 'react-bootstrap';
+import { Table, Button, Modal, Container } from 'react-bootstrap';
 import { FiEdit } from "react-icons/fi";
 import { MdDeleteForever } from "react-icons/md";
 import Link from "next/link";
 import { obtenerUsuarios, obtenerPersonasNBA, eliminarUsuario, eliminarPersonaNBA } from '@/Firebase/Promesas';
 import { Usuario, PersonaNBA } from '@/Interfaces/Interfaces';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
 
 const Pagina4 = () => {
     const [usuarios, setUsuarios] = useState<Usuario[]>([]);
@@ -58,70 +60,103 @@ const Pagina4 = () => {
     };
 
     return (
-        <>
-            <h2>Usuarios</h2>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Correo</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        usuarios.map((u) => (
-                            <tr key={u.id}>
-                                <td>{u.nombre}</td>
-                                <td>{u.apellido}</td>
-                                <td>{u.correo}</td>
-                                <td>
-                                    <Link href={{ pathname: "ModificarUsuario", query: { key: u.id } }}>
-                                        <Button variant="warning"><FiEdit /></Button>
-                                    </Link>
-                                    <Button variant="danger" onClick={() => handleShowModal('usuario', u.id)}><MdDeleteForever /></Button>
-                                </td>
-                            </tr>
-                        ))
-                    }
-                </tbody>
+        <>  
+
+            <Container className="vh-100" 
+                style={{
+                        backgroundImage: "url('/fondo1.jpeg')", // Ruta a la imagen en la carpeta public
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat',
+                        minWidth: '100%',
+                        minHeight: '100vh'
+                    
+                }}>
+            
+            <Container className='container-sm' style={{ maxWidth: '1200px', margin: 'auto',paddingTop:"20px" }}>
+                <Link href={"Menu"}>
+                        <Button style={{ marginTop: "15px", marginRight:"15px"}} type="button" variant="secondary" >Volver al Menu</Button>
+                </Link>
+                <h2 style={{color:"white",marginTop:"40px"}}>Usuarios</h2>
+                <Table striped bordered hover style={{marginTop:"20px"}}>
+                    <thead>
+                        <tr>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Correo</th>
+                            <th>Contraseña</th>
+                            <th>Acción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {
+                            usuarios.map((u) => (
+                                <tr key={u.id}>
+                                    <td>{u.nombre}</td>
+                                    <td>{u.apellido}</td>
+                                    <td>{u.correo}</td>
+                                    <td>{u.password}</td>
+                                    <td>
+                                        <Link href={{ pathname: "ModificarUsuario", query: { key: u.id } }}>
+                                            <Button variant="warning"><FiEdit /></Button>
+                                        </Link>
+                                        <Button variant="danger" onClick={() => handleShowModal('usuario', u.id)}><MdDeleteForever /></Button>
+                                    </td>
+                                </tr>
+                            ))
+                        }
+                    </tbody>
             </Table>
 
-            <h2>Personas NBA</h2>
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Apellido</th>
-                        <th>Correo</th>
-                        <th>Edad</th>
-                        <th>Dirección</th>
-                        <th>Conferencia</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {
-                        personasNBA.map((p) => (
-                            <tr key={p.id}>
-                                <td>{p.nombre}</td>
-                                <td>{p.apellido}</td>
-                                <td>{p.correo}</td>
-                                <td>{p.edad}</td>
-                                <td>{p.direccion}</td>
-                                <td>{p.conferencia}</td>
-                                <td>
-                                    <Link href={{ pathname: "ModificarPersonaNBA", query: { key: p.id } }}>
-                                        <Button variant="warning"><FiEdit /></Button>
-                                    </Link>
-                                    <Button variant="danger" onClick={() => handleShowModal('personaNBA', p.id)}><MdDeleteForever /></Button>
-                                </td>
+            </Container>
+            
+            
+
+            <Container  className='container-sm' style={{ maxWidth: '1200px', margin: 'auto', marginTop: '15px' }} > 
+
+                    
+                    <h2 style={{color:"white"}}>Personas NBA</h2>
+                    <Table striped bordered hover>
+                        <thead>
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Apellido</th>
+                                <th>Correo</th>
+                                <th>Edad</th>
+                                <th>Dirección</th>
+                                <th>Conferencia</th>
+                                <th>Acción</th>
                             </tr>
-                        ))
-                    }
-                </tbody>
-            </Table>
+                        </thead>
+                        <tbody>
+                            {
+                                personasNBA.map((p) => (
+                                    <tr key={p.id}>
+                                        <td>{p.nombre}</td>
+                                        <td>{p.apellido}</td>
+                                        <td>{p.correo}</td>
+                                        <td>{p.edad}</td>
+                                        <td>{p.direccion}</td>
+                                        <td>{p.conferencia}</td>
+                                        <td>
+                                            <Link href={{ pathname: "ModificarPersonaNBA", query: { key: p.id } }}>
+                                                <Button variant="warning"><FiEdit /></Button>
+                                            </Link>
+                                            <Button variant="danger" onClick={() => handleShowModal('personaNBA', p.id)}><MdDeleteForever /></Button>
+                                        </td>
+                                    </tr>
+                                ))
+                            }
+                        </tbody>
+                    </Table>
+
+                    
+            </Container>
+
+
+
+            </Container>
+               
 
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
